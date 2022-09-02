@@ -1,0 +1,47 @@
+﻿@model IEnumerable<StudentApp.student>
+
+@{
+    ViewBag.Title = "Students";
+}
+
+<h2>Students</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateStudent")
+
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RegNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.subject.Subjects)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.subject.Subjects)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditStudent", new { id=item.RegNo }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RegNo }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RegNo })
+        </td>
+    </tr>
+}
+
+</table>

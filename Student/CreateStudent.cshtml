@@ -1,0 +1,79 @@
+﻿@model StudentApp.student
+
+@{
+    ViewBag.Title = "CreateStudent";
+}
+
+<h2>CreateStudent</h2>
+ 
+
+ 
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>student</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group" >
+            @Html.LabelFor(model => model.StudentName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10" >
+                <input class="form-control" id="StudentName" onchange="StudentNameCheck()" type="text" name="StudentName" placeholder="Enter StudentName" /> 
+                @Html.ValidationMessageFor(model => model.StudentName)
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="col-md-2"></label>
+            <div class="col-md-10">
+                <p id="Status"> </p> 
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubjectId, "SubjectId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="txtSubjectId">
+                @Html.DropDownList("SubjectId", String.Empty)
+                @Html.ValidationMessageFor(model => model.SubjectId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" id="btnCreate" />
+            </div>
+        </div> 
+
+    </div>
+    <script>
+        function StudentNameCheck() {
+            $("#Status").html("Cheking...");
+            $.post("@Url.Action("IsExist", "Student")",
+                {
+                    StudentName: $("#StudentName").val()
+                },
+            function (data) {
+                if (data == 0) {
+                    $("#Status").html('<font color = "Green"> New Student Record </font>');
+                    $("#StudentName").css("border-color", "Green");
+                }
+
+                else {
+                    $("#Status").html('<font color = "Red"> StudentName Already Exist </font>');
+                    $("#StudentName").css("border-color", "Red"); 
+                }
+            });
+        } 
+</script>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Students")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
